@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blank.dao.CheckItemDao">
+    <!--新增检查项-->
+    <insert id="add" parameterType="com.blank.pojo.CheckItem">
+        insert into t_checkitem(code,name,sex,age,price,type,attention,remark)
+        values(#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
+    </insert>
+    <!--查询所有符合条件的数据-->
+    <select id="selectByCondition" parameterType="String" resultType="com.blank.pojo.CheckItem">
+        select id,code,name,sex,age,price,type,attention,remark
+        from t_checkitem
+        <if test="value !=null and value.length > 0">
+            where code = #{value} or name = #{value}
+        </if>
+    </select>
+</mapper>
