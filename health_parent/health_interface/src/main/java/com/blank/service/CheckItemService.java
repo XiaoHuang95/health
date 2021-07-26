@@ -3,6 +3,8 @@ package com.blank.service;
 import com.blank.entity.PageResult;
 import com.blank.pojo.CheckItem;
 
+import java.util.List;
+
 /**
  * 检查项服务接口
  */
@@ -17,4 +19,6 @@ public interface CheckItemService {
     void edit(CheckItem checkItem);
     //根据id查询检查项信息
     CheckItem findById(Integer id);
+    //查询所有检查项
+    List<CheckItem> findAll();
 }

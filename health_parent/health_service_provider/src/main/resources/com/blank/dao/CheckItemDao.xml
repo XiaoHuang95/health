@@ -12,7 +12,7 @@
         select id,code,name,sex,age,price,type,attention,remark
         from t_checkitem
         <if test="value !=null and value.length > 0">
-            where code = #{value} or name = #{value}
+            where code like concat("%",#{value},"%") or name like concat("%",#{name},"%")
         </if>
     </select>
     <!--查询中间关系表-->
@@ -54,9 +54,13 @@
         </set>
         where id = #{id}
     </update>
-
+    <!--根据id查询检查项-->
     <select id="findById" parameterType="int" resultType="com.blank.pojo.CheckItem">
         select id,code,name,sex,age,price,type,attention,remark
         from t_checkitem where id = #{id}
+    </select>
+    <!--查询所有检查项-->
+    <select id="findAll" resultType="com.blank.pojo.CheckItem">
+        select * from t_checkitem
     </select>
 </mapper>

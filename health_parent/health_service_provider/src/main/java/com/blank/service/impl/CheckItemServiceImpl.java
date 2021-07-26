@@ -10,6 +10,8 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * 检查项服务
  */
@@ -51,9 +53,15 @@ public class CheckItemServiceImpl implements CheckItemService{
     public void edit(CheckItem checkItem) {
         checkItemDao.edit(checkItem);
     }
-
+    //根据id查询检查项
     @Override
     public CheckItem findById(Integer id) {
         return checkItemDao.findById(id);
+    }
+    //查询所有检查项
+    @Override
+    public List<CheckItem> findAll() {
+        List<CheckItem> checkItemList = checkItemDao.findAll();
+        return checkItemList;
     }
 }

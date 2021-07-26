@@ -332,7 +332,7 @@
                 // 删除
                 handleDelete(row) {
                     this.$confirm("确认删除吗？","提示",{type:'warning'}).then(()=> {
-                        //点击确定按钮时只需此处代码
+                        //点击确定按钮发送请求
                         axios.get("/checkitem/delete.do?id=" + row.id).then(res => {
                             if (!res.data.flag) {
                                 //删除失败

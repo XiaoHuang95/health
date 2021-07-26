@@ -3,6 +3,8 @@ package com.blank.dao;
 import com.blank.pojo.CheckItem;
 import com.github.pagehelper.Page;
 
+import java.util.List;
+
 /**
  * 持久层Dao
  */
@@ -19,4 +21,6 @@ public interface CheckItemDao {
     void edit(CheckItem checkItem);
     //根据id查询检查项
     CheckItem findById(Integer id);
+    //查询所有检查项
+    List<CheckItem> findAll();
 }

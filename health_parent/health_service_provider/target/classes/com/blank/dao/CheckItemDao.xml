@@ -12,7 +12,55 @@
         select id,code,name,sex,age,price,type,attention,remark
         from t_checkitem
         <if test="value !=null and value.length > 0">
-            where code = #{value} or name = #{value}
+            where code like concat("%",#{value},"%") or name like concat("%",#{name},"%")
         </if>
+    </select>
+    <!--查询中间关系表-->
+    <select id="findCountByCheckItemId" resultType="long" parameterType="int">
+        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}
+    </select>
+    <!--删除-->
+    <delete id="deleteById" parameterType="int">
+        delete from t_checkitem where id=#{id}
+    </delete>
+    <!--编辑检查项信息-->
+    <update id="edit" parameterType="com.blank.pojo.CheckItem">
+        update  t_checkitem
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--根据id查询检查项-->
+    <select id="findById" parameterType="int" resultType="com.blank.pojo.CheckItem">
+        select id,code,name,sex,age,price,type,attention,remark
+        from t_checkitem where id = #{id}
+    </select>
+    <!--查询所有检查项-->
+    <select id="findAll" resultType="com.blank.pojo.CheckItem">
+        select * from t_checkitem
     </select>
 </mapper>

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
@@ -73,6 +75,11 @@ public class CheckItemController {
         return new Result(true,MessageConstant.EDIT_CHECKITEM_SUCCESS);
     }
 
+    /**
+     * 根据id查询检查项信息
+     * @param id
+     * @return
+     */
     @RequestMapping("/findById")
     public Result findById(Integer id){
         try {
@@ -82,5 +89,18 @@ public class CheckItemController {
             //服务调用失败
             return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
         }
+    }
+
+    /**
+     * 查询所有检查项信息
+     */
+    @RequestMapping("/findAll")
+    public Result findAll(){
+        List<CheckItem> checkItemList = checkItemService.findAll();
+        if (checkItemList != null && checkItemList.size() > 0){
+            Result result = new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItemList);
+            return result;
+        }
+        return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
     }
 }

@@ -22,7 +22,7 @@
         <property name="username" value="root" />
         <property name="password" value="root" />
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/health?characterEncoding=utf-8" />
+        <property name="url" value="jdbc:mysql://localhost:3306/health?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone =Asia/Shanghai" />
 
         <property name="validationQuery" value="SELECT 1 FROM DUAL" />
         <property name="testWhileIdle" value="true" />

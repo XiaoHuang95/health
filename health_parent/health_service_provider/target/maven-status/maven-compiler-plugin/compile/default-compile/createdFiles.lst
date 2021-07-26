@@ -1,2 +1,4 @@
+com\blank\dao\CheckGroupDao.class
+com\blank\service\impl\CheckGroupServiceImpl.class
 com\blank\service\impl\CheckItemServiceImpl.class
 com\blank\dao\CheckItemDao.class
