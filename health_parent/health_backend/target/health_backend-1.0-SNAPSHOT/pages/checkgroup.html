@@ -305,6 +305,7 @@
                     //发送ajax请求
                     axios.post("/checkgroup/add.do?checkitemIds="+this.checkitemIds,this.formData).then(res =>{
                         //关闭新增窗口
+                        this.dialogFormVisible = false;
                         if (res.data.flag){
                             //新增成功弹出提示
                             this.$message({
@@ -359,7 +360,6 @@
                 handleUpdate(row) {
                 //发送Ajax请求获得检查组信息的回显
                     axios.get("/checkgroup/findById.do?id="+row.id).then(res => {
-                        console.log(res.data.data)
                         if (res.data.flag){
                             //弹出编辑窗口
                             this.dialogFormVisible4Edit = true;

@@ -1,4 +1,8 @@
-com\blank\dao\CheckGroupDao.class
 com\blank\service\impl\CheckGroupServiceImpl.class
+com\blank\service\impl\SetMealServiceImpl.class
 com\blank\service\impl\CheckItemServiceImpl.class
+com\blank\dao\SetMealDao.class
+com\blank\service\impl\OrderSettingServiceImpl.class
+com\blank\dao\CheckGroupDao.class
+com\blank\dao\OrderSettingDao.class
 com\blank\dao\CheckItemDao.class

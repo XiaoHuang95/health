@@ -16,13 +16,15 @@
 							http://www.springframework.org/schema/util
 							http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <!--引入配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
     <!--数据源-->
     <bean id="dataSource"
           class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-        <property name="username" value="root" />
-        <property name="password" value="root" />
-        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/health?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false&amp;serverTimezone =Asia/Shanghai" />
+        <property name="username" value="${jdbc.username}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
 
         <property name="validationQuery" value="SELECT 1 FROM DUAL" />
         <property name="testWhileIdle" value="true" />
