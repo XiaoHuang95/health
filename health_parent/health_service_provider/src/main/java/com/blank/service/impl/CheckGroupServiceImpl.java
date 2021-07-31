@@ -42,12 +42,7 @@ public class CheckGroupServiceImpl implements CheckGroupService {
         CheckGroup checkGroup = checkGroupDao.findById(id);
         return checkGroup;
     }
-    //根据检查组合id查询对应的所有检查项id
-    @Override
-    public List<Integer> findCheckItemIdsByCheckGroupId(Integer checkGroupId) {
-        List<Integer> checkitemIds = checkGroupDao.findCheckItemIdsByCheckGroupId(checkGroupId);
-        return checkitemIds;
-    }
+
     //编辑检查组信息
     public void edit(CheckGroup checkGroup,Integer[] checkitemIds){
         //根据检查组id删除中间表数据(清理原有关系)
@@ -61,10 +56,6 @@ public class CheckGroupServiceImpl implements CheckGroupService {
     @Override
     public boolean deleteById(Integer id) {
         int res = checkGroupDao.deleteAssociation(id);
-        List<Integer> ids = this.findCheckItemIdsByCheckGroupId(id);
-        if (ids.size() == 0){
-            res = 1;
-        }
         if (res>0){
             checkGroupDao.deleteById(id);
             return true;

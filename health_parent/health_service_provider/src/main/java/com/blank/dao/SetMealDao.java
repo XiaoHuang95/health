@@ -15,4 +15,6 @@ public interface SetMealDao {
     Page<Setmeal> selectByCondition(String queryString);
     //获取体检套餐列表
     List<Setmeal> findAll();
+    //根据套餐id查询套餐信息
+    Setmeal findById(int id);
 }

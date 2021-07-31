@@ -1,5 +1,6 @@
 package com.blank.dao;
 
+import com.blank.pojo.CheckGroup;
 import com.blank.pojo.CheckItem;
 import com.github.pagehelper.Page;
 
@@ -23,4 +24,6 @@ public interface CheckItemDao {
     CheckItem findById(Integer id);
     //查询所有检查项
     List<CheckItem> findAll();
+    //根据检查组id查询检查项的id集合
+    List<Integer> findCheckItemIdsByCheckGroupId(Integer checkgroupId);
 }

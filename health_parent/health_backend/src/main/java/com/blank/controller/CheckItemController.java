@@ -103,4 +103,21 @@ public class CheckItemController {
         }
         return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
     }
+
+    /**
+     * 根据检查组合id查询对应的所有检查项id
+     * @param checkGroupId
+     * @return
+     */
+    @RequestMapping("/findCheckItemIdsByCheckGroupId")
+    public Result findCheckItemIdsByCheckGroupId(Integer checkGroupId){
+        try {
+            List<Integer> checkitemIds = checkItemService.
+                    findCheckItemIdsByCheckGroupId(checkGroupId);
+            return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkitemIds);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result(false,MessageConstant.QUERY_CHECKITEM_FAIL);
+        }
+    }
 }

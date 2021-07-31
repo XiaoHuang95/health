@@ -13,9 +13,6 @@
     <script src="../plugins/vue/vue.js"></script>
     <script src="../plugins/vue/axios-0.18.0.js"></script>
     <script src="../plugins/healthmobile.js"></script>
-    <script>
-        var id = getUrlParam("id");
-    </script>
 </head>
 <body data-spy="scroll" data-target="#myNavbar" data-offset="150">
 <div id="app" class="app">
@@ -29,23 +26,27 @@
     <div class="contentBox">
         <div class="card">
             <div class="project-img">
-                <img :src="imgUrl" width="100%" height="100%" />
+                <img src="http://qwvr7wk10.hn-bkt.clouddn.com/${setmeal.img}"
+                     width="100%" height="100%" />
             </div>
             <div class="project-text">
-                <h4 class="tit">{{setmeal.name}}</h4>
-                <p class="subtit">{{setmeal.remark}}</p>
+                <h4 class="tit">${setmeal.name}</h4>
+                <p class="subtit">${setmeal.remark}</p>
                 <p class="keywords">
-                    <span>{{setmeal.sex == '0' ? '性别不限' : setmeal.sex == '1' ? '男':'女'}}</span>
-                    <span>{{setmeal.age}}</span>
+                    <span>
+						<#if setmeal.sex == '0'>
+                            性别不限
+                        <#else>
+                            <#if setmeal.sex == '1'>
+                                男
+                            <#else>
+                                女
+                            </#if>
+                        </#if>
+					</span>
+                    <span>${setmeal.age}</span>
                 </p>
             </div>
-            <!--<div class="project-know">
-                <a href="orderNotice.html" class="link-page">
-                    <i class="icon-ask-circle"><span class="path1"></span><span class="path2"></span></i>
-                    <span class="word">预约须知</span>
-                    <span class="arrow"><i class="icon-rit-arrow"></i></span>
-                </a>
-            </div>-->
         </div>
         <div class="table-listbox">
             <div class="box-title">
@@ -60,15 +61,19 @@
                 </div>
                 <div class="table-content">
                     <ul class="table-list">
-                        <li class="table-item" v-for="checkgroup in setmeal.checkGroups">
-                            <div class="item flex2">{{checkgroup.name}}</div>
-                            <div class="item flex3">
-                                <label v-for="checkitem in checkgroup.checkItems">
-                                    {{checkitem.name}}
-                                </label>
-                            </div>
-                            <div class="item flex3">{{checkgroup.remark}}</div>
-                        </li>
+                        <#list setmeal.checkGroups as checkgroup>
+                            <li class="table-item">
+                                <div class="item flex2">${checkgroup.name}</div>
+                                <div class="item flex3">
+                                    <#list checkgroup.checkItems as checkitem>
+                                        <label>
+                                            ${checkitem.name}
+                                        </label>
+                                    </#list>
+                                </div>
+                                <div class="item flex3">${checkgroup.remark}</div>
+                            </li>
+                        </#list>
                     </ul>
                 </div>
                 <div class="box-button">
@@ -81,22 +86,10 @@
 <script>
     var vue = new Vue({
         el:'#app',
-        data:{
-            imgUrl:null,//套餐对应的图片链接
-            setmeal:{}
-        },
         methods:{
             toOrderInfo(){
-                window.location.href = "orderInfo.html?id=" + id;
+                window.location.href = "orderInfo.html?id=${setmeal.id}";
             }
-        },
-        mounted(){
-            axios.post("/setmeal/findById.do?id=" + id).then((response) => {
-                if(response.data.flag){
-                    this.setmeal = response.data.data;
-                    this.imgUrl = 'http://qwvr7wk10.hn-bkt.clouddn.com/' + this.setmeal.img;
-                }
-            });
         }
     });
 </script>

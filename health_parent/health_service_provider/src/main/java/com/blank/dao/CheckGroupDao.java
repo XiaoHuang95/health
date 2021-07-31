@@ -15,8 +15,6 @@ public interface CheckGroupDao {
     Page<CheckGroup> selectByCondition(String queryString);
     //根据id查询
     CheckGroup findById(Integer id);
-    //查询检查组对应的检查项的信息
-    List<Integer> findCheckItemIdsByCheckGroupId(Integer checkGroupId);
     //编辑检查组信息
     void edit(CheckGroup checkGroup);
     //清除与中间表的原有关系

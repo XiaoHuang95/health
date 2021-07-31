@@ -21,4 +21,7 @@ public interface CheckItemService {
     CheckItem findById(Integer id);
     //查询所有检查项
     List<CheckItem> findAll();
+    //根据检查组id查询关联的检查项id
+    List<Integer> findCheckItemIdsByCheckGroupId(Integer checkgroupId);
+
 }

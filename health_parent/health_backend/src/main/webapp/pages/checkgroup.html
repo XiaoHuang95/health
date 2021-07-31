@@ -374,7 +374,7 @@
                                     this.tableData = res.data.data;
                                     //查询当前检查组包含的检查项信息进行回显
                                     // console.log(row.id)
-                                    axios.get("/checkgroup/findCheckItemIdsByCheckGroupId.do?checkGroupId="
+                                    axios.get("/checkitem/findCheckItemIdsByCheckGroupId.do?checkGroupId="
                                     + row.id).then(res => {
                                         if (res.data.flag){
                                             //回显

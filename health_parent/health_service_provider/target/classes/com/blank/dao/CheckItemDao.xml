@@ -63,4 +63,13 @@
     <select id="findAll" resultType="com.blank.pojo.CheckItem">
         select * from t_checkitem
     </select>
+    <!--根据检查组id查询检查项的信息id列表-->
+    <select id="findCheckItemIdsByCheckGroupId" parameterType="int" resultType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{checkgroup_id}
+    </select>
+    <!--根据检查组id查询检查项的信息-->
+    <select id="findCheckItemsByCheckGroupId" parameterType="int" resultType="com.blank.pojo.CheckItem">
+        select * from t_checkitem where id in (select checkitem_id from t_checkgroup_checkitem
+        where checkgroup_id = #{id})
+    </select>
 </mapper>

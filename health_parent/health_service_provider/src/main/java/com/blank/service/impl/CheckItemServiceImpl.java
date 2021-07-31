@@ -64,4 +64,12 @@ public class CheckItemServiceImpl implements CheckItemService{
         List<CheckItem> checkItemList = checkItemDao.findAll();
         return checkItemList;
     }
+
+    //根据检查组合id查询对应的所有检查项id
+    @Override
+    public List<Integer> findCheckItemIdsByCheckGroupId(Integer checkGroupId) {
+        List<Integer> checkitemIds = checkItemDao.findCheckItemIdsByCheckGroupId(checkGroupId);
+        return checkitemIds;
+    }
+
 }

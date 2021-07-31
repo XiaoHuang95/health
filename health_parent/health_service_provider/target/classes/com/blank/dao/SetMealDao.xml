@@ -2,6 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.blank.dao.SetMealDao">
+    <resultMap type="com.blank.pojo.Setmeal" id="baseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <!--配置多对多映射关系-->
+    <resultMap type="com.blank.pojo.Setmeal"
+               id="findByIdResultMap"
+               extends="baseResultMap">
+        <!--
+         column="id" :查询结果的id值
+         property="checkGroups"：关联的集合
+         javaType="ArrayList"：关联的集合类型
+         ofType="com.blank.pojo.CheckGroup"：要查询的值的类型
+        -->
+        <collection property="checkGroups"
+                    javaType="ArrayList"
+                    ofType="com.blank.pojo.CheckGroup"
+                    column="id"
+                    select="com.blank.dao.CheckGroupDao.selectCheckGroupsBySetmealId">
+        </collection>
+    </resultMap>
     <!--新增体检套餐-->
     <insert id="add" parameterType="com.blank.pojo.Setmeal">
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
@@ -21,5 +50,13 @@
         <if test="value != null and value.length > 0">
             where code=#{value} or name=#{value} or helpCode=#{value}
         </if>
+    </select>
+    <!--查询套餐列表-->
+    <select id="findAll" resultType="com.blank.pojo.Setmeal">
+        select * from t_setmeal
+    </select>
+    <!--根据套餐id查询套餐信息,并且将检查组信息以及检查项信息都查出来-->
+    <select id="findById" resultMap="findByIdResultMap">
+        select * from t_setmeal  where id=#{id}
     </select>
 </mapper>

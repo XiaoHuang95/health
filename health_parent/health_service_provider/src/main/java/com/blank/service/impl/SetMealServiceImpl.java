@@ -9,10 +9,15 @@ import com.blank.pojo.Setmeal;
 import com.blank.service.SetMealService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +26,14 @@ import java.util.Map;
 @Transactional
 public class SetMealServiceImpl implements SetMealService {
     @Autowired
+    private FreeMarkerConfigurer freeMarkerConfigurer;
+    @Autowired
     private SetMealDao setMealDao;
     @Autowired
     private JedisPool jedisPool;
+
+    @Value("${out_put_path}")
+    private String outPutPath;
     //添加体检套餐
     @Override
     public void add(Setmeal setmeal, Integer[] checkgroupIds) {
@@ -35,7 +45,62 @@ public class SetMealServiceImpl implements SetMealService {
         }
         //将图片保存到redis
         savePic2Redis(setmeal.getImg());
+        //新增套餐后需要重新生成静态页面
+        this.generateMobileStaticHtml();
     }
+    //生成静态页面
+    private void generateMobileStaticHtml() {
+        //准备模板文件中所需要的数据
+        List<Setmeal> setmealList = this.findAll();
+        //生成套餐列表静态页面
+        generateMobileSetmealListHtml(setmealList);
+        //生成套餐详情静态页面(多个)
+        generateMobileSetmealDetailHtml(setmealList);
+    }
+
+    //生成套餐详情静态页面(多个)
+    private void generateMobileSetmealDetailHtml(List<Setmeal> setmealList) {
+        for (Setmeal setmeal : setmealList){
+            Map<String,Object> dataMap = new HashMap<>();
+            dataMap.put("setmeal",this.findById(setmeal.getId()));
+            this.generateHtml("mobile_setmeal_detail.ftl",
+                    "setmeal_detail_"+setmeal.getId()+".html",dataMap);
+        }
+    }
+
+    //生成套餐列表静态页面
+    private void generateMobileSetmealListHtml(List<Setmeal> setmealList) {
+        Map<String,Object> dataMap = new HashMap<>();
+        dataMap.put("setmealList",setmealList);
+        this.generateHtml("mobile_setmeal.ftl","m_setmeal.html",dataMap);
+    }
+
+    //生成页面的方法
+    public void generateHtml(String templateName,String htmlPageName,Map<String, Object> dataMap){
+        System.out.println("======");
+        Configuration configuration = freeMarkerConfigurer.getConfiguration();
+        Writer out = null;
+        try {
+            //加载模板文件
+            Template template = configuration.getTemplate(templateName);
+            //生成数据
+            File docFile = new File(outPutPath + "\\"+htmlPageName);
+            out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(docFile)));
+            //输出文件
+            template.process(dataMap,out);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (null != out){
+                    out.flush();
+                }
+            }catch (Exception e2){
+                e2.printStackTrace();
+            }
+        }
+    }
+
     //分页查询
     @Override
     public PageResult findPage(Integer currentPage, Integer pageSize, String queryString) {
@@ -47,6 +112,12 @@ public class SetMealServiceImpl implements SetMealService {
     @Override
     public List<Setmeal> findAll() {
         return setMealDao.findAll();
+    }
+
+    //根据id查询套餐信息
+    @Override
+    public Setmeal findById(int id) {
+        return setMealDao.findById(id);
     }
 
     //将图片名称保存到redis

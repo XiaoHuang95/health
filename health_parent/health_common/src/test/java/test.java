@@ -1,4 +1,5 @@
 import com.blank.utils.QiniuUtils;
+import com.blank.utils.SMSUtils;
 import org.junit.Test;
 
 public class test{
@@ -9,5 +10,10 @@ public class test{
     @Test
     public void delete(){
         QiniuUtils.deleteFileFromQiniu("my.jpg");
+    }
+    @Test
+    public void send() throws Exception {
+        String[] params = {"弟弟"};
+        SMSUtils.sendShortMessage("1057546","17673200384",params);
     }
 }
